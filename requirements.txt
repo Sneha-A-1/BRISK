@@ -1,0 +1,8 @@
+# Versions used to produce the reported results (Python 3.13.16)
+numpy==2.5.3
+pandas==3.0.5
+scipy==1.18.1
+matplotlib==3.11.2
+PyYAML==6.0.3
+pyshp==3.1.6
+pytest==9.1.1

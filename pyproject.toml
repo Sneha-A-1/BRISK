@@ -1,0 +1,14 @@
+[project]
+name = "brisk-agri-sensing"
+version = "1.0.0"
+description = "Stochastic Modelling and Performance Bounds for Zone Decisions in Agricultural LoRa Sensor Networks"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+dependencies = ["numpy", "pandas", "scipy", "matplotlib", "PyYAML", "pyshp"]
+
+[project.optional-dependencies]
+test = ["pytest"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

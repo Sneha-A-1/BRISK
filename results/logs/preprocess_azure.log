@@ -1,0 +1,199 @@
+[preprocess] azure
+{
+ "caf": {
+  "files": 42,
+  "rows_raw": 3373658,
+  "duplicate_rows_removed": 889,
+  "missing_cells_raw": 15637894,
+  "cells_masked_by_qc": 13632,
+  "spike_break_flags_applied": 177,
+  "missing_fraction_after_qc": 0.4641,
+  "vw30_coverage_by_year": {
+   "2007": 0.144,
+   "2008": 0.104,
+   "2009": 0.246,
+   "2010": 0.251,
+   "2011": 0.74,
+   "2012": 0.698,
+   "2013": 0.841,
+   "2014": 0.912,
+   "2015": 0.793,
+   "2016": 0.669
+  },
+  "locations": 42
+ },
+ "uscrn": {
+  "CA_Merced_23_WSW": {
+   "rows": 105120,
+   "missing": {
+    "AIR_TEMPERATURE": 0.0016,
+    "PRECIPITATION": 0.0016,
+    "SOLAR_RADIATION": 0.0008,
+    "RELATIVE_HUMIDITY": 0.0008,
+    "WIND_1_5": 0.0008,
+    "SURFACE_TEMPERATURE": 0.0008,
+    "SOIL_MOISTURE_5": 1.0
+   }
+  },
+  "IA_Des_Moines_17_E": {
+   "rows": 105120,
+   "missing": {
+    "AIR_TEMPERATURE": 0.0162,
+    "PRECIPITATION": 0.0,
+    "SOLAR_RADIATION": 0.0,
+    "RELATIVE_HUMIDITY": 0.0,
+    "WIND_1_5": 0.0,
+    "SURFACE_TEMPERATURE": 0.0,
+    "SOIL_MOISTURE_5": 1.0
+   }
+  },
+  "IL_Champaign_9_SW": {
+   "rows": 105120,
+   "missing": {
+    "AIR_TEMPERATURE": 0.0004,
+    "PRECIPITATION": 0.0,
+    "SOLAR_RADIATION": 0.0,
+    "RELATIVE_HUMIDITY": 0.0,
+    "WIND_1_5": 0.0,
+    "SURFACE_TEMPERATURE": 0.0,
+    "SOIL_MOISTURE_5": 1.0
+   }
+  },
+  "KS_Manhattan_6_SSW": {
+   "rows": 105120,
+   "missing": {
+    "AIR_TEMPERATURE": 0.0011,
+    "PRECIPITATION": 0.0002,
+    "SOLAR_RADIATION": 0.0001,
+    "RELATIVE_HUMIDITY": 0.0001,
+    "WIND_1_5": 0.0001,
+    "SURFACE_TEMPERATURE": 0.0001,
+    "SOIL_MOISTURE_5": 1.0
+   }
+  },
+  "NE_Lincoln_11_SW": {
+   "rows": 105120,
+   "missing": {
+    "AIR_TEMPERATURE": 0.0005,
+    "PRECIPITATION": 0.0,
+    "SOLAR_RADIATION": 0.0,
+    "RELATIVE_HUMIDITY": 0.0,
+    "WIND_1_5": 0.0,
+    "SURFACE_TEMPERATURE": 0.0,
+    "SOIL_MOISTURE_5": 1.0
+   }
+  },
+  "WA_Spokane_17_SSW": {
+   "rows": 105120,
+   "missing": {
+    "AIR_TEMPERATURE": 0.0008,
+    "PRECIPITATION": 0.0003,
+    "SOLAR_RADIATION": 0.0001,
+    "RELATIVE_HUMIDITY": 0.0001,
+    "WIND_1_5": 0.0001,
+    "SURFACE_TEMPERATURE": 0.0001,
+    "SOIL_MOISTURE_5": 1.0
+   }
+  }
+ },
+ "uwa": {
+  "records_raw": 163200,
+  "records_dedup": 163200,
+  "stations": {
+   "1": {
+    "packets_received": 33350,
+    "packets_expected": 36407,
+    "pdr": 0.916,
+    "median_report_interval_s": 631.0,
+    "rssi_median_dbm": -85.0,
+    "snr_median_db": 11.0,
+    "snr_p05_db": -5.0,
+    "battery_v_median": 8.8,
+    "p_good_to_bad": 0.0291,
+    "p_bad_to_good": 0.318
+   },
+   "2": {
+    "packets_received": 33360,
+    "packets_expected": 33656,
+    "pdr": 0.9912,
+    "median_report_interval_s": 682.0,
+    "rssi_median_dbm": -71.0,
+    "snr_median_db": 15.0,
+    "snr_p05_db": 3.0,
+    "battery_v_median": 8.9,
+    "p_good_to_bad": 0.0087,
+    "p_bad_to_good": 0.9797
+   },
+   "3": {
+    "packets_received": 28435,
+    "packets_expected": 34137,
+    "pdr": 0.833,
+    "median_report_interval_s": 673.0,
+    "rssi_median_dbm": -89.0,
+    "snr_median_db": 11.0,
+    "snr_p05_db": 7.0,
+    "battery_v_median": 8.8,
+    "p_good_to_bad": 0.0234,
+    "p_bad_to_good": 0.1168
+   },
+   "4": {
+    "packets_received": 32735,
+    "packets_expected": 34176,
+    "pdr": 0.9578,
+    "median_report_interval_s": 672.0,
+    "rssi_median_dbm": -84.0,
+    "snr_median_db": 12.0,
+    "snr_p05_db": 0.0,
+    "battery_v_median": 9.4,
+    "p_good_to_bad": 0.0155,
+    "p_bad_to_good": 0.3518
+   },
+   "5": {
+    "packets_received": 35320,
+    "packets_expected": 35612,
+    "pdr": 0.9918,
+    "median_report_interval_s": 645.0,
+    "rssi_median_dbm": -68.0,
+    "snr_median_db": 15.0,
+    "snr_p05_db": 6.0,
+    "battery_v_median": 8.8,
+    "p_good_to_bad": 0.0082,
+    "p_bad_to_good": 0.9897
+   }
+  },
+  "lora": {
+   "sf": 9,
+   "bw_hz": 125000,
+   "cr": "4/5",
+   "tx_dbm": 20,
+   "f_mhz": 174,
+   "source": "UWAfarm15jul2019_MD (dataset metadata)"
+  }
+ },
+ "intel": {
+  "readings_raw": 2313682,
+  "readings_valid_mote": 2303290,
+  "motes": 54,
+  "directed_links": 2917,
+  "links_p_gt_0_5": 220,
+  "mean_link_p_nonzero": 0.1571,
+  "median_epoch_yield_per_mote": 0.6458
+ },
+ "azure": {
+  "minutes": 20160,
+  "invocations_total": 12495810846,
+  "per_minute_min_median_max": [
+   447383,
+   619746,
+   1258768
+  ],
+  "peak_to_median": 2.031,
+  "duration_rows": 651505,
+  "nonpositive_duration_rows_removed": 11422,
+  "weighted_duration_ms_p50_p90_p99": [
+   155.0,
+   1658.0,
+   9856.0
+  ]
+ }
+}

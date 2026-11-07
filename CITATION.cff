@@ -1,0 +1,8 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below (author details to be completed)."
+title: "Stochastic Modelling and Performance Bounds for Zone Decisions in Agricultural LoRa Sensor Networks"
+version: 1.0.0
+date-released: 2026-10-21
+license: MIT
+authors:
+    given-names: "Sneha, Prabh Deep Singh, Vikas Tripathi"

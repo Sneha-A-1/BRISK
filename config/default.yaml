@@ -1,0 +1,100 @@
+# Default scenario.  Every parameter is tagged in docs/parameters.md with its
+# provenance: [D] dataset-derived, [S] specification/datasheet, [L] literature,
+# [A] modelling assumption (varied in the sensitivity study where it matters).
+data:
+  processed_dir: data/processed
+
+horizon_hours: 2880           # [A] 120 simulated days (Jun-Sep dry-down season)
+tiles: 6                      # [A] virtual CAF fields per gateway (42 nodes each); one per CAF year
+zones_per_tile: 6             # [A] management zones (k-means on sensor coordinates)
+zone_seed: 0
+season: {months: [4, 9], start_mmdd: "06-01"}   # [D] growing-season thresholds; replay starts Jun 1
+tile_years: [2014, 2013, 2015, 2012, 2011, 2010]  # [D] CAF years with Jun-Sep data, best-covered first
+tile_offset_days: 7
+
+sensing:
+  period_s: 3600              # [D] CAF native sampling interval
+  weather_period_s: 300       # [D] USCRN native sampling interval
+  heartbeat_s: 21600          # [A] fixed suppression heartbeat H_hb = 6 h (baselines; swept 2-24 h)
+  hb_min_s: 10800             # [A] BRISK heartbeat near a decision threshold (3 h)
+  hb_max_s: 86400             # [A] BRISK heartbeat far from thresholds (24 h); default chosen for iso-energy with SOD-PT (6 h)
+  loss_memory_s: 21600        # [A] how long a sequence gap marks a node as lossy
+
+events:
+  dry_quantile: 0.20          # [D] refill threshold = 20th pct of the location's VW30 record
+  wet_quantile: 0.98          # [D] saturation threshold = 98th pct
+  hysteresis: 0.003           # [A] m3/m3, alarm re-arm hysteresis
+  zone_fraction: 0.5          # [A] zone decision: >= 50% of members satisfy the condition
+  deadline_dry_s: 120         # [A] urgent deadlines (varied 30-600 s)
+  deadline_wet_s: 60
+  deadline_weather_s: 60
+  frost_c: 1.0                # [A] frost-risk alarm on USCRN air temperature (C)
+  heavy_rain_mm: 1.0          # [A] heavy-rain alarm, mm per 5 min
+
+lora:                         # PHY of the UWA deployment [D]; currents from SX1276 [S]
+  sf: 9
+  bw_hz: 125000
+  cr: 1
+  preamble: 8
+  channels: 8                 # [A] uplink channels (EU868-like plan)
+  duty_rx1: 0.01              # [S] ETSI sub-band M (868.0-868.6 MHz) 1%
+  duty_rx2: 0.10              # [S] ETSI sub-band P (869.4-869.65 MHz) 10%
+  rx2_sf: 12                  # [S] EU868 RX2 default DR0
+  payload_soil_bytes: 36      # [A] 10 x 2 B values + seq/flags (10 B) + LoRaWAN MAC overhead (13 B)... see docs
+  payload_weather_bytes: 33
+  payload_ack_bytes: 13
+  payload_cmd_bytes: 16
+  payload_pull_bytes: 14
+  tx_current_a: 0.120         # [S] SX1276 +20 dBm PA_BOOST
+  rx_current_a: 0.0103        # [S] SX1276 LoRa RX, 125 kHz
+  voltage_v: 3.3              # [S]
+  rx_window_symbols: 8        # [A] preamble-detection timeout of an empty RX window
+  ack_timeout_s: [1.0, 3.0]   # [S] LoRaWAN ACK_TIMEOUT range
+  max_retx: 3                 # [A] LoRaWAN-default retry budget (baselines)
+  max_retx_spread: 6          # [A] BRISK deadline-spanning retry budget
+  class_b_period_s: 30.72     # [L] 0.96 * 2^5 s ping periodicity (Abdelfadeel et al.)
+  beacon_period_s: 128        # [L]
+  beacon_payload_bytes: 17    # [A] beacon frame assumed SF9, 10-symbol preamble, implicit header
+  beacon_preamble: 10
+
+backhaul:                     # [A]/[L] rural cellular uplink (Adarsh et al. 2021: rural latency 3x, throughput 11x worse)
+  good: {rate_bps: 2000000, rtt_s: 0.060}
+  bad:  {rate_bps: 180000, rtt_s: 0.180}
+  mean_good_s: 14400
+  mean_bad_s: 1800
+
+fog: {enabled: true, cores: 4, speed: 1.0, rate_bps: 20000000, rtt_s: 0.005}   # [A]
+edge: {cores: 1, speed: 0.25}                                             # [A] gateway SBC vs reference core
+cloud: {cores: 16, speed: 1.0, bg_rho_mean: 0.6, bg_rho_max: 0.95}        # [A] + [D] Azure load shape
+
+tasks:
+  verify_work_s: 0.005        # [A] conservative: ~165x the profiled kernel (30 us, results/logs/task_profiling.json)
+  weather_work_s: 0.002       # [M]
+  map_work_s: 15.5            # [A] conservative: ~8x the profiled GP field map (1.9 s idle, results/logs/task_profiling.json); an early timing taken under CPU load
+  map_deadline_s: 3600        # [A] strategic map must be ready before the next one
+  verify_in_bytes: 600
+  verify_out_bytes: 64
+  weather_in_bytes: 200
+  map_in_bytes_cloud: 1000    # trigger only: the cloud already holds the archive
+  map_in_bytes_local: 20000   # 24 h tile window shipped to fog
+  map_out_bytes: 50000        # map product uploaded to the cloud store
+  archive_record_bytes: 48    # per received packet forwarded to the cloud archive
+
+retrieval:
+  eps_vw_fixed: 0.005         # [A] SOD baselines (swept 0.002-0.02)
+  eps_vw_max: 0.010           # [A] BRISK far from thresholds
+  eps_vw_min: 0.002           # [A] BRISK near thresholds / watch
+  eps_vw_cap: 0.030
+  eps_t: 0.5                  # [A] soil temperature tolerance (C)
+  eps_t_cap: 2.0
+  prox_r0: 0.005              # [A] proximity band (m3/m3)
+  prox_r: 0.030
+  watch_band: 0.005           # [A] a member is 'near-critical' within this distance of a threshold
+  watch_frac: 0.34            # [A] zone enters watch if >= this fraction of members is near-critical
+  watch_hold_s: 10800         # [A] watch persists 3 h after the last trigger (alarm or near-critical)
+  energy_budget_frac: 0.5     # [A] per-node budget = 50% of periodic-reporting radio energy
+  eq_kappa: 4.0               # [A] energy-queue scaling
+
+gateways: 1                   # [A] 1 = UWA logger receiver statistics; 2 adds the second receiver
+link_model: ctmc              # ctmc (bursty, default) | iid (sensitivity)
+burst_time_scale: 1.0         # scales the time base of the loss chains (sensitivity)
